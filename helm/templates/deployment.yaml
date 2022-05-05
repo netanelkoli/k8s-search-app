@@ -26,5 +26,35 @@ spec:
             - name: http
               containerPort: {{ .Values.service.targetPort }}
               protocol: TCP
+          env:
+            - name: TEST_LOAD
+              value: {{ .Values.test.simulateHeavyLoad }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          # Testing the heavy load: if test flag TEST_LOAD is true, should handle the situation.
+          {{- if .Values.probes.enabled }}
+          livenessProbe:
+            httpGet:
+              scheme: HTTP
+              path: /health
+              port: {{ .Values.service.targetPort }}
+            initialDelaySeconds: {{ .Values.probes.initialDelaySeconds }}
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              scheme: HTTP
+              path: /health
+              port: {{ .Values.service.targetPort }}
+            initialDelaySeconds: {{ .Values.probes.initialDelaySeconds }}
+            periodSeconds: 3
+            successThreshold: 1
+            failureThreshold: 5
+          startupProbe:
+            httpGet:
+              scheme: HTTP
+              path: /health
+              port: {{ .Values.service.targetPort }}
+            failureThreshold: 5
+            periodSeconds: 10
+            initialDelaySeconds: {{ .Values.probes.initialDelaySeconds }}
+          {{- end }}

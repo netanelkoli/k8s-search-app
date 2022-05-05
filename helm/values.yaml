@@ -1,6 +1,5 @@
-# Default values for sample-tomcat-netanelkoli.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
+test:
+  simulateHeavyLoad: trues
 
 replicaCount: 1
 namespace: default
@@ -9,12 +8,16 @@ image:
   repository: doc-search
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart version.
-  tag: "latest"
+  tag: "1.1.1"
 
 service:
   type: NodePort
   targetPort: 8080
-  port: 8080
+  port: 80
+
+probes:
+  enabled: true
+  initialDelaySeconds: 60
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
