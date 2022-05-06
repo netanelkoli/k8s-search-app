@@ -30,3 +30,8 @@ resources: {}
   # requests:
   #   cpu: 100m
   #   memory: 128Mi
+
+prometheus:
+  server:
+    service:
+      type: NodePort
