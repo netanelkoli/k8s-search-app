@@ -7,8 +7,7 @@ SLEEP_TIME=60
 app = Flask(__name__)
 index = Index.new(sys.argv[1])
 metrics = PrometheusMetrics(app)
-# static information as metric
-metrics.info('app_info', 'Application info', version='1.0.3')
+metrics.info('app_info', 'Application info', version='1.0.0')
 
 @app.route('/')
 @metrics.summary('requests_by_status', 'Request latencies by status',
