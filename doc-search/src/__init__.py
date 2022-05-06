@@ -11,6 +11,10 @@ metrics = PrometheusMetrics(app)
 metrics.info('app_info', 'Application info', version='1.0.3')
 
 @app.route('/')
+@metrics.summary('requests_by_status', 'Request latencies by status',
+                 labels={'status': lambda r: r.status_code})
+@metrics.histogram('requests_by_status_and_path', 'Request latencies by status and path',
+                   labels={'status': lambda r: r.status_code, 'path': lambda: request.path})
 def search():
     q = request.args.get('q', default="")
     print(q, type(q))

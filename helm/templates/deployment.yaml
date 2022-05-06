@@ -28,7 +28,7 @@ spec:
               protocol: TCP
           env:
             - name: TEST_LOAD
-              value: {{ .Values.test.simulateHeavyLoad }}
+              value: "{{ .Values.test.simulateHeavyLoad }}"
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           # Testing the heavy load: if test flag TEST_LOAD is true, should handle the situation.

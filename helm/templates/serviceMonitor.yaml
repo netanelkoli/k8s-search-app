@@ -1,9 +1,12 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: {{ .Chart.Name }}-serviceMonitor
+  name: {{ .Chart.Name }}-service-monitor
   labels:
+    component: backend
     app: {{ .Chart.Name }}
+    name: {{ .Chart.Name }}
+    release: {{ .Chart.Name }}
   namespace: {{ .Values.namespace }}
 spec:
   namespaceSelector:
@@ -12,5 +15,9 @@ spec:
   selector:
     matchLabels:
       app: {{ .Chart.Name }}
+      name: {{ .Chart.Name }}
   endpoints:
-  - port: http
+  - interval: 30s
+    targetPort: 8080
+    scheme: http
+    path: /metrics

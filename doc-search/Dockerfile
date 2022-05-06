@@ -1,4 +1,4 @@
-# Making build faster : nulti stages, cache the pip install layesr which does not ifently changes
+# Making build faster : Multi stages, cache the pip install layer which does not ofently changes
 # Making docker image smaller: use another base image
 FROM python:3.10-alpine as base
 COPY src /app
